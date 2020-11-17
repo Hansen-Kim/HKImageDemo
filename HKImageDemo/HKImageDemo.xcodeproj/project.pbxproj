@@ -17,6 +17,7 @@
 		3AD7CE0D256392D6002B97CB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE0C256392D6002B97CB /* API.swift */; };
 		3AD7CE182563AE9B002B97CB /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE172563AE9B002B97CB /* APITests.swift */; };
 		3AD7CE1E2563AF55002B97CB /* APIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */; };
+		3AD7CE252563CE2B002B97CB /* Unsplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE242563CE2B002B97CB /* Unsplash.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		3AD7CE0C256392D6002B97CB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		3AD7CE172563AE9B002B97CB /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
 		3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExtensions.swift; sourceTree = "<group>"; };
+		3AD7CE242563CE2B002B97CB /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,11 +110,20 @@
 		3AD7CE05256362B5002B97CB /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3AD7CE232563CDEC002B97CB /* Unsplash */,
 				3AD7CE06256362CB002B97CB /* Logable.swift */,
 				3AD7CE0C256392D6002B97CB /* API.swift */,
 				3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		3AD7CE232563CDEC002B97CB /* Unsplash */ = {
+			isa = PBXGroup;
+			children = (
+				3AD7CE242563CE2B002B97CB /* Unsplash.swift */,
+			);
+			path = Unsplash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +235,7 @@
 				3AD7CE07256362CB002B97CB /* Logable.swift in Sources */,
 				3AD7CE0D256392D6002B97CB /* API.swift in Sources */,
 				3AD7CE1E2563AF55002B97CB /* APIExtensions.swift in Sources */,
+				3AD7CE252563CE2B002B97CB /* Unsplash.swift in Sources */,
 				3AD7CDBF25635D13002B97CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
