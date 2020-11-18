@@ -29,25 +29,20 @@ class APITests: XCTestCase {
         let semaphore = DispatchSemaphore(value: 0)
         var value: Container?
         var error: Error?
-        let session: APISession? = try? API.get.session(url: APITests.url)
+        let session = try? API
+            .get
+            .session(url: APITests.url)
+            .fetch { (result: APIResult<Container>) in
+                switch result {
+                    case .success(let aValue, _, _):
+                        value = aValue
+                    case .failure(let anError, _, _):
+                        error = anError
+                }
+                semaphore.signal()
+            }
         
         XCTAssertNotNil(session, "session initialize failed")
-        
-        _ = session?.fetch { [weak self] (_, result: APIResult<Container>) in
-            guard self != nil else {
-                XCTFail("self is deinitialized")
-                semaphore.signal()
-                return
-            }
-            
-            switch result {
-                case .success(let aValue):
-                    value = aValue
-                case .failure(let anError):
-                    error = anError
-            }
-            semaphore.signal()
-        }
         
         _ = semaphore.wait(timeout: DispatchTime.now() + 15.0)
         

@@ -20,8 +20,8 @@ extension URLComponents: URLConvertable {
 extension Array: APIQuery where Element == URLQueryItem {
     var asQuery: String? { return self.count > 0 ? self.map({ "\($0.name)=\($0.value ?? "")" }).joined(separator: "&") : nil }
 }
-extension Dictionary: APIQuery where Key == String, Value: CustomStringConvertible {
-    var asQuery: String? { return self.count > 0 ? self.map({ "\($0.key)=\($0.value.description)"}).joined(separator: "&") : nil }
+extension Dictionary: APIQuery where Key: CustomStringConvertible, Value: CustomStringConvertible {
+    var asQuery: String? { return self.count > 0 ? self.map({ "\($0.key.description)=\($0.value.description)"}).joined(separator: "&") : nil }
 }
 
 extension Array: APIHeader where Element == URLQueryItem {
@@ -32,8 +32,8 @@ extension Array: APIHeader where Element == URLQueryItem {
         }
     }
 }
-extension Dictionary: APIHeader where Key == String, Value: CustomStringConvertible {
-    var asHeader: [String : String] { return self.reduce(into: [:]) { (result, item) in result[item.key] = item.value.description } }
+extension Dictionary: APIHeader where Key: CustomStringConvertible, Value: CustomStringConvertible {
+    var asHeader: [String : String] { return self.reduce(into: [:]) { (result, item) in result[item.key.description] = item.value.description } }
 }
 
 extension Encodable where Self: APIBody {

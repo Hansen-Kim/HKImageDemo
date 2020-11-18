@@ -1,5 +1,5 @@
 //
-//  Logable.swift
+//  Loggable.swift
 //  HKImageDemo
 //
 //  Created by 김승한 on 2020/11/17.

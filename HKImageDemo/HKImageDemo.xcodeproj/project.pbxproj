@@ -7,17 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AB8E57B2564F407006CC56F /* ModelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB8E57A2564F407006CC56F /* ModelExtension.swift */; };
 		3AD7CDBF25635D13002B97CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CDBE25635D13002B97CB /* AppDelegate.swift */; };
 		3AD7CDC625635D13002B97CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC425635D13002B97CB /* Main.storyboard */; };
 		3AD7CDC825635D14002B97CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC725635D14002B97CB /* Assets.xcassets */; };
 		3AD7CDCB25635D14002B97CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC925635D14002B97CB /* LaunchScreen.storyboard */; };
-		3AD7CDD625635D14002B97CB /* HKImageDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CDD525635D14002B97CB /* HKImageDemoTests.swift */; };
 		3AD7CDF325635D84002B97CB /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3AD7CDF225635D84002B97CB /* OAuthSwift */; };
-		3AD7CE07256362CB002B97CB /* Logable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE06256362CB002B97CB /* Logable.swift */; };
+		3AD7CE07256362CB002B97CB /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE06256362CB002B97CB /* Loggable.swift */; };
 		3AD7CE0D256392D6002B97CB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE0C256392D6002B97CB /* API.swift */; };
 		3AD7CE182563AE9B002B97CB /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE172563AE9B002B97CB /* APITests.swift */; };
 		3AD7CE1E2563AF55002B97CB /* APIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */; };
-		3AD7CE252563CE2B002B97CB /* Unsplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE242563CE2B002B97CB /* Unsplash.swift */; };
+		3AD7CE252563CE2B002B97CB /* UnsplashAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE242563CE2B002B97CB /* UnsplashAPI.swift */; };
+		3AD96F322564B44000C1490E /* CommonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD96F312564B44000C1490E /* CommonExtension.swift */; };
+		3AD96F3A2564B7C900C1490E /* UnsplashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD96F392564B7C900C1490E /* UnsplashTests.swift */; };
+		3AD96F3F2564B85F00C1490E /* UnsplashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD96F3E2564B85F00C1490E /* UnsplashModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3AB8E57A2564F407006CC56F /* ModelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelExtension.swift; sourceTree = "<group>"; };
 		3AD7CDBB25635D12002B97CB /* HKImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HKImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD7CDBE25635D13002B97CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AD7CDC525635D13002B97CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -38,13 +42,15 @@
 		3AD7CDCA25635D14002B97CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3AD7CDCC25635D14002B97CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AD7CDD125635D14002B97CB /* HKImageDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HKImageDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AD7CDD525635D14002B97CB /* HKImageDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKImageDemoTests.swift; sourceTree = "<group>"; };
 		3AD7CDD725635D14002B97CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3AD7CE06256362CB002B97CB /* Logable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logable.swift; sourceTree = "<group>"; };
+		3AD7CE06256362CB002B97CB /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
 		3AD7CE0C256392D6002B97CB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		3AD7CE172563AE9B002B97CB /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
 		3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIExtensions.swift; sourceTree = "<group>"; };
-		3AD7CE242563CE2B002B97CB /* Unsplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unsplash.swift; sourceTree = "<group>"; };
+		3AD7CE242563CE2B002B97CB /* UnsplashAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPI.swift; sourceTree = "<group>"; };
+		3AD96F312564B44000C1490E /* CommonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonExtension.swift; sourceTree = "<group>"; };
+		3AD96F392564B7C900C1490E /* UnsplashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashTests.swift; sourceTree = "<group>"; };
+		3AD96F3E2564B85F00C1490E /* UnsplashModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +93,9 @@
 		3AD7CDBD25635D13002B97CB /* HKImageDemo */ = {
 			isa = PBXGroup;
 			children = (
+				3AD96F442564B88100C1490E /* API */,
 				3AD7CE05256362B5002B97CB /* Common */,
+				3AD96F3D2564B84800C1490E /* Model */,
 				3AD7CDBE25635D13002B97CB /* AppDelegate.swift */,
 				3AD7CDC425635D13002B97CB /* Main.storyboard */,
 				3AD7CDC725635D14002B97CB /* Assets.xcassets */,
@@ -100,8 +108,8 @@
 		3AD7CDD425635D14002B97CB /* HKImageDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				3AD7CDD525635D14002B97CB /* HKImageDemoTests.swift */,
 				3AD7CE172563AE9B002B97CB /* APITests.swift */,
+				3AD96F392564B7C900C1490E /* UnsplashTests.swift */,
 				3AD7CDD725635D14002B97CB /* Info.plist */,
 			);
 			path = HKImageDemoTests;
@@ -110,20 +118,29 @@
 		3AD7CE05256362B5002B97CB /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				3AD7CE232563CDEC002B97CB /* Unsplash */,
-				3AD7CE06256362CB002B97CB /* Logable.swift */,
-				3AD7CE0C256392D6002B97CB /* API.swift */,
-				3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */,
+				3AD7CE06256362CB002B97CB /* Loggable.swift */,
+				3AD96F312564B44000C1490E /* CommonExtension.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
 		};
-		3AD7CE232563CDEC002B97CB /* Unsplash */ = {
+		3AD96F3D2564B84800C1490E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3AD7CE242563CE2B002B97CB /* Unsplash.swift */,
+				3AD96F3E2564B85F00C1490E /* UnsplashModel.swift */,
+				3AB8E57A2564F407006CC56F /* ModelExtension.swift */,
 			);
-			path = Unsplash;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3AD96F442564B88100C1490E /* API */ = {
+			isa = PBXGroup;
+			children = (
+				3AD7CE0C256392D6002B97CB /* API.swift */,
+				3AD7CE242563CE2B002B97CB /* UnsplashAPI.swift */,
+				3AD7CE1D2563AF55002B97CB /* APIExtensions.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,10 +249,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AD7CE07256362CB002B97CB /* Logable.swift in Sources */,
+				3AD96F3F2564B85F00C1490E /* UnsplashModel.swift in Sources */,
+				3AD7CE07256362CB002B97CB /* Loggable.swift in Sources */,
 				3AD7CE0D256392D6002B97CB /* API.swift in Sources */,
 				3AD7CE1E2563AF55002B97CB /* APIExtensions.swift in Sources */,
-				3AD7CE252563CE2B002B97CB /* Unsplash.swift in Sources */,
+				3AD7CE252563CE2B002B97CB /* UnsplashAPI.swift in Sources */,
+				3AB8E57B2564F407006CC56F /* ModelExtension.swift in Sources */,
+				3AD96F322564B44000C1490E /* CommonExtension.swift in Sources */,
 				3AD7CDBF25635D13002B97CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,7 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AD7CE182563AE9B002B97CB /* APITests.swift in Sources */,
-				3AD7CDD625635D14002B97CB /* HKImageDemoTests.swift in Sources */,
+				3AD96F3A2564B7C900C1490E /* UnsplashTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

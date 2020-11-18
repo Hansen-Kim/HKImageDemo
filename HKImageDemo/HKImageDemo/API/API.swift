@@ -32,6 +32,15 @@ protocol APIDecoder {
 }
 
 protocol APISession {
+    var url: URL { get }
+    var scheme: String { get }
+    var header: APIHeader? { get }
+    var body: APIBody? { get }
+    
+    var timeInterval: TimeInterval { get }
+    var encoder: APIEncoder { get }
+    var decoder: APIDecoder { get }
+    
     func query(_ query: APIQuery) -> Self
     func header(_ header: APIHeader) -> Self
     func body(_ body: APIBody) -> Self
@@ -41,11 +50,11 @@ protocol APISession {
     func encoder(_ encoder: APIEncoder) -> Self
     func decoder(_ decoder: APIDecoder) -> Self
     
-    func fetch<T>(_ handler: @escaping (URLResponse?, APIResult<T>) -> Void) -> Self where T: Decodable
+    func fetch<T>(_ handler: @escaping (APIResult<T>) -> Void) -> Self where T: Decodable
     func cancel() -> Self
 }
 
-fileprivate final class _APISession: APISession {
+fileprivate final class _APISession: APISession, Loggable {
     static var defaultTimeInterval = 15.0
     
     var components: URLComponents
@@ -66,6 +75,10 @@ fileprivate final class _APISession: APISession {
         
         self.components = components
         self.scheme = scheme
+    }
+    
+    var url: URL {
+        return self.components.url!
     }
     
     func query(_ query: APIQuery) -> Self {
@@ -95,9 +108,9 @@ fileprivate final class _APISession: APISession {
         return self
     }
     
-    func fetch<T>(_ handler: @escaping (URLResponse?, APIResult<T>) -> Void) -> Self where T: Decodable {
+    func fetch<T>(_ handler: @escaping (APIResult<T>) -> Void) -> Self where T: Decodable {
         guard let url = components.url else {
-            handler(nil, .failure(error: APIError.urlConvertFailure))
+            handler(.failure(error: APIError.urlConvertFailure, response: nil, data: nil))
             return self
         }
         
@@ -108,27 +121,37 @@ fileprivate final class _APISession: APISession {
             
             let task = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
                 guard let self = self, let data = data else {
-                    handler(response, .failure(error: error ?? APIError.nullReturn))
+                    handler(.failure(error: error ?? APIError.nullReturn, response: response, data: nil))
                     return
                 }
-                
+
+                #if DEBUG
+                self.log(message: "url: \(url)")
+                if let response = response as? HTTPURLResponse {
+                    self.log(message: "response: \(response)")
+                }
+                if let received = String(data: data, encoding: .utf8) {
+                    self.log(message: "received: \(received)")
+                }
+                #endif
+
                 if let httpResponse = response as? HTTPURLResponse, let error = httpResponse.asError {
-                    handler(response, .failure(error: error))
+                    handler(.failure(error: error, response: response, data: data))
                     return
                 }
-                
+
                 do {
                     let value = try self.decoder.decode(T.self, from: data)
-                    handler(response, .success(value: value))
+                    handler(.success(value: value, response: response, data: data))
                 } catch let exception {
-                    handler(response, .failure(error: exception))
+                    handler(.failure(error: exception, response: response, data: data))
                 }
             }
             
             self.task = task
             task.resume()
         } catch let exception {
-            handler(nil, .failure(error: exception))
+            handler(.failure(error: exception, response: nil, data: nil))
         }
         
         return self
@@ -152,14 +175,14 @@ enum API: String {
 }
 
 enum APIResult<T> where T: Decodable {
-    case success(value: T)
-    case failure(error: Error)
+    case success(value: T, response: URLResponse?, data: Data)
+    case failure(error: Error, response: URLResponse?, data: Data?)
 }
 
 extension APIResult {
     var value: T? {
         switch self {
-            case .success(let value):
+            case .success(let value, _, _):
                 return value
             default:
                 return nil
@@ -168,10 +191,26 @@ extension APIResult {
     
     var error: Error? {
         switch self {
-            case .failure(let error):
+            case .failure(let error, _, _):
                 return error
             default:
                 return nil
+        }
+    }
+    
+    var response: URLResponse? {
+        switch self {
+            case .success(_, let response, _), .failure(_, let response, _):
+                return response
+        }
+    }
+    
+    var data: Data? {
+        switch self {
+            case .success(_, _, let data):
+                return data
+            case .failure(_, _, let data):
+                return data
         }
     }
 }
