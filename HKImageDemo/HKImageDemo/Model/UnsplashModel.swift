@@ -78,7 +78,7 @@ struct UnsplashPhoto: Decodable {
     let width: Int
     let height: Int
     let color: Color
-    let blurHash: String
+    let blurHash: String?
     let likes: Int
     let likedByUser: Bool
     let description: String?

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,6 @@
 		3AD7CDC625635D13002B97CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC425635D13002B97CB /* Main.storyboard */; };
 		3AD7CDC825635D14002B97CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC725635D14002B97CB /* Assets.xcassets */; };
 		3AD7CDCB25635D14002B97CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC925635D14002B97CB /* LaunchScreen.storyboard */; };
-		3AD7CDF325635D84002B97CB /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3AD7CDF225635D84002B97CB /* OAuthSwift */; };
 		3AD7CE07256362CB002B97CB /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE06256362CB002B97CB /* Loggable.swift */; };
 		3AD7CE0D256392D6002B97CB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE0C256392D6002B97CB /* API.swift */; };
 		3AD7CE182563AE9B002B97CB /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CE172563AE9B002B97CB /* APITests.swift */; };
@@ -21,6 +20,7 @@
 		3AD96F322564B44000C1490E /* CommonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD96F312564B44000C1490E /* CommonExtension.swift */; };
 		3AD96F3A2564B7C900C1490E /* UnsplashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD96F392564B7C900C1490E /* UnsplashTests.swift */; };
 		3AD96F3F2564B85F00C1490E /* UnsplashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD96F3E2564B85F00C1490E /* UnsplashModel.swift */; };
+		993F0539256541BA00A49773 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993F0538256541BA00A49773 /* PageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +51,7 @@
 		3AD96F312564B44000C1490E /* CommonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonExtension.swift; sourceTree = "<group>"; };
 		3AD96F392564B7C900C1490E /* UnsplashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashTests.swift; sourceTree = "<group>"; };
 		3AD96F3E2564B85F00C1490E /* UnsplashModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashModel.swift; sourceTree = "<group>"; };
+		993F0538256541BA00A49773 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +59,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AD7CDF325635D84002B97CB /* OAuthSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +95,7 @@
 			children = (
 				3AD96F442564B88100C1490E /* API */,
 				3AD7CE05256362B5002B97CB /* Common */,
+				993F0537256541A500A49773 /* Components */,
 				3AD96F3D2564B84800C1490E /* Model */,
 				3AD7CDBE25635D13002B97CB /* AppDelegate.swift */,
 				3AD7CDC425635D13002B97CB /* Main.storyboard */,
@@ -143,6 +144,14 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		993F0537256541A500A49773 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				993F0538256541BA00A49773 /* PageView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -160,7 +169,6 @@
 			);
 			name = HKImageDemo;
 			packageProductDependencies = (
-				3AD7CDF225635D84002B97CB /* OAuthSwift */,
 			);
 			productName = HKImageDemo;
 			productReference = 3AD7CDBB25635D12002B97CB /* HKImageDemo.app */;
@@ -212,7 +220,6 @@
 			);
 			mainGroup = 3AD7CDB225635D12002B97CB;
 			packageReferences = (
-				3AD7CDF125635D84002B97CB /* XCRemoteSwiftPackageReference "OAuthSwift" */,
 			);
 			productRefGroup = 3AD7CDBC25635D12002B97CB /* Products */;
 			projectDirPath = "";
@@ -256,6 +263,7 @@
 				3AD7CE252563CE2B002B97CB /* UnsplashAPI.swift in Sources */,
 				3AB8E57B2564F407006CC56F /* ModelExtension.swift in Sources */,
 				3AD96F322564B44000C1490E /* CommonExtension.swift in Sources */,
+				993F0539256541BA00A49773 /* PageView.swift in Sources */,
 				3AD7CDBF25635D13002B97CB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -532,25 +540,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		3AD7CDF125635D84002B97CB /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3AD7CDF225635D84002B97CB /* OAuthSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AD7CDF125635D84002B97CB /* XCRemoteSwiftPackageReference "OAuthSwift" */;
-			productName = OAuthSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3AD7CDB325635D12002B97CB /* Project object */;
 }

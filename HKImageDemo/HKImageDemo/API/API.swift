@@ -54,7 +54,7 @@ protocol APISession {
     func cancel() -> Self
 }
 
-fileprivate final class _APISession: APISession, Loggable {
+fileprivate final class _APISession: APISession {
     static var defaultTimeInterval = 15.0
     
     var components: URLComponents
@@ -162,6 +162,8 @@ fileprivate final class _APISession: APISession, Loggable {
         return self
     }
 }
+
+extension _APISession: Loggable { }
 
 enum API: String {
     case get = "GET"
