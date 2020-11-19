@@ -58,3 +58,16 @@ extension UIColor {
                   alpha: alpha / 255.0)
     }
 }
+
+extension UITableView {
+    func dequeueReusableCell<T>(for indexPath: IndexPath) -> T where T: UITableViewCell {
+        guard let cell = self.dequeueReusableCell(withIdentifier: T.cellIdentifier, for: indexPath) as? T else {
+            fatalError("failure to dequeue cell (\(T.cellIdentifier))")
+        }
+        return cell
+    }
+}
+
+extension UITableViewCell {
+    static var cellIdentifier: String { String(describing: self.self) }
+}

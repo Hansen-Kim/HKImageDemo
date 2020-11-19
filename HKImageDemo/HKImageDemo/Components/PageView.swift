@@ -141,6 +141,8 @@ class PageView: UIScrollView {
     }
 
     override func layoutSubviews() {
+        super.layoutSubviews()
+        
         let bounds = self.bounds
         let contentWidth = bounds.size.width
         
