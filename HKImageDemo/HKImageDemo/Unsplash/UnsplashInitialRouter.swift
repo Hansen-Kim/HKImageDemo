@@ -25,8 +25,6 @@ struct UnsplashInitialRouter: Router {
         let transition: (View, View) -> Void = { (source, destination) in
             if let navigationController = source as? UINavigationController,
                let mainListViewController = destination as? PhotoMainListViewController {
-                navigationController.navigationBar
-                navigationController.setNavigationBarHidden(false, animated: true)
                 navigationController.viewControllers = [mainListViewController]
             }
         }
@@ -35,8 +33,8 @@ struct UnsplashInitialRouter: Router {
                   routeType: .custom(transition: transition), animated: false) { (_, destination) in
             if let mainListViewController = destination as? PhotoMainListViewController {
                 let interactor = PhotoMainListInteractor()
-                let router = PhotoListRouter(with: mainListViewController)
-                let presenter = PhotoListPresenter(with: mainListViewController, interactor: interactor, router: router)
+                let router = PhotoMainListRouter(with: mainListViewController)
+                let presenter = PhotoMainListPresenter(with: mainListViewController, interactor: interactor, router: router)
 
                 interactor.presenter = presenter
                 mainListViewController.presenter = presenter

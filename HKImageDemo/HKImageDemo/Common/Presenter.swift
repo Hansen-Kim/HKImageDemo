@@ -9,8 +9,14 @@ import Foundation
 
 protocol Presenter {
     func viewDidLoad()
+    
+    func viewWillAppear()
+    func viewWillDisappear()
 }
 
 extension Presenter {
     func viewDidLoad() { }
+
+    func viewWillAppear() { }
+    func viewWillDisappear() { }
 }

@@ -1,27 +1,25 @@
 //
-//  PhotoMainListInteractor.swift
+//  PhotoSearchListInteractor.swift
 //  HKImageDemo
 //
-//  Created by 김승한 on 2020/11/19.
+//  Created by 김승한 on 2020/11/20.
 //
 
 import Foundation
 
-protocol PhotoMainListInteractorOutput: PhotoListInteractorOutput {
-    func randomPhotoDidChanged()
+protocol PhotoSearchListInteractorOutput: PhotoListInteractorOutput {
+
 }
 
-protocol PhotoMainListInteractorProtoype: PhotoListInteractorPrototype {
-    var randomPhoto: UnsplashPhoto? { get }
+protocol PhotoSearchListInteractorPrototype: PhotoListInteractorPrototype {
     
-    func fetchRandomPhoto()
 }
 
-class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
-    weak var presenter: PhotoMainListInteractorOutput?
+class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
+    weak var presenter: PhotoSearchListInteractorOutput?
     
     var hasMore: Bool {
-        return self.photos.count > 0
+        return false
     }
     
     var photos: [UnsplashPhoto] = [] {
@@ -38,22 +36,13 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
             }
         }
     }
-    private(set) var randomPhoto: UnsplashPhoto? {
-        didSet {
-            DispatchQueue.main.async {
-                self.presenter?.randomPhotoDidChanged()
-            }
-        }
-    }
     
     func reload() {
         self.photos.removeAll()
-        
-        self.fetchPhotos(page: 1)
     }
     
     func more() {
-        self.fetchPhotos(page: self.currentPage + 1)
+
     }
     
     private var currentPage: Int = 1
@@ -72,24 +61,6 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
                                 self.photos = value
                             }
                             self.currentPage = page
-                        case .failure(let error, _, _):
-                            self.errorReceived(error)
-                    }
-                }
-        } catch let exception {
-            self.errorReceived(exception)
-        }
-    }
-    
-    func fetchRandomPhoto() {
-        do {
-            _ = try Unsplash
-                .random
-                .session()
-                .unsplashfetch { (result: APIResult<UnsplashPhoto>) in
-                    switch result {
-                        case .success(let value, _, _):
-                            self.randomPhoto = value
                         case .failure(let error, _, _):
                             self.errorReceived(error)
                     }

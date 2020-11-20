@@ -12,7 +12,7 @@ protocol PhotoListRouterPrototype: Router {
 }
 
 class PhotoListRouter: PhotoListRouterPrototype {
-    private weak var photoListView: PhotoListView?
+    private(set) weak var photoListView: PhotoListView?
     init(with view: PhotoListView) {
         self.photoListView = view
     }

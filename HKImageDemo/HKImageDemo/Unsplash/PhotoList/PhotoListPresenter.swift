@@ -12,6 +12,7 @@ protocol PhotoListPresenterPrototype: class, Presenter {
     
     func numberOfRow(in section: Int) -> Int
     func didSelectedRow(at indexPath: IndexPath)
+    func estimatedHeightForRow(parentView: UIView, at indexPath: IndexPath) -> CGFloat
     func configure(parentView: UIView, photoContainerView: PhotoContainerView, at indexPath: IndexPath)
     
     func reload()
@@ -19,9 +20,9 @@ protocol PhotoListPresenterPrototype: class, Presenter {
 }
 
 class PhotoListPresenter: PhotoListPresenterPrototype {
-    private weak var view: PhotoListView!
-    private var interactor: PhotoListInteractorPrototype
-    private var router: PhotoListRouterPrototype
+    private(set) weak var view: PhotoListView!
+    private(set) var interactor: PhotoListInteractorPrototype
+    private(set) var router: PhotoListRouterPrototype
     
     init(with view: PhotoListView, interactor: PhotoListInteractorPrototype, router: PhotoListRouterPrototype) {
         self.view = view
@@ -40,16 +41,19 @@ class PhotoListPresenter: PhotoListPresenterPrototype {
         self.interactor.currentPhoto = self.photo(at: indexPath)
         self.router.showPhotoPage(with: self.interactor)
     }
+    func estimatedHeightForRow(parentView: UIView, at indexPath: IndexPath) -> CGFloat {
+        let photo = self.photo(at: indexPath)
+        
+        let width = parentView.bounds.size.width
+        return ceil((CGFloat(photo.height) * width) / CGFloat(photo.width))
+    }
     func configure(parentView: UIView, photoContainerView: PhotoContainerView, at indexPath: IndexPath) {
         let photo = self.photo(at: indexPath)
         photoContainerView.photoTitleLabel.attributedText = photo.title
         photoContainerView.photoImageView.fetch(photo.image)
         
         if let cell = photoContainerView as? PhotoListTableViewCell {
-            let width = parentView.bounds.size.width
-            let height = ceil((CGFloat(photo.height) * width) / CGFloat(photo.width))
-            
-            cell.heightConstraint.constant = height
+            cell.heightConstraint.constant = self.estimatedHeightForRow(parentView: parentView, at: indexPath)
         }
     }
     

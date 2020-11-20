@@ -29,6 +29,7 @@ enum Unsplash {
     case photoList(page: Int = 1, perPage: Int = 10, order: Order = .latest)
     case singlePhoto(id: String)
     case searchPhoto(query: String, page: Int = 1, perPage: Int = 10, order: Order = .latest)
+    case random
     
     enum Order: String, Encodable, CustomStringConvertible, Hashable {
         case latest
@@ -45,6 +46,8 @@ enum Unsplash {
                 session = try SinglePhotoSessionBuilder(with: id).session
             case .searchPhoto(let query, let page, let perPage, let order):
                 session = try SearchPhotoSessionBuilder(with: query, page: page, perPage: perPage, by: order).session
+            case .random:
+                session = try RandomPhotoSessionBuilder().session
         }
         
         let decoder = JSONDecoder()
@@ -122,6 +125,21 @@ enum Unsplash {
                 .session(url: Unsplash.Constants.url.appendingPathComponent(Constants.path))
                 .header(Unsplash.Constants.defaultHeader)
                 .query(query)
+        }
+    }
+    
+    private struct RandomPhotoSessionBuilder: UnsplashSessionBuilder {
+        struct Constants {
+            static let path = "photos/random"
+        }
+
+        let session: APISession
+        
+        init() throws {
+            self.session = try API
+                .get
+                .session(url: Unsplash.Constants.url.appendingPathComponent(Constants.path))
+                .header(Unsplash.Constants.defaultHeader)
         }
     }
 }

@@ -17,15 +17,16 @@ protocol PhotoListView: class, View {
 }
 
 class PhotoListViewController: UIViewController {
-    var presenter: PhotoListPresenterPrototype!
+    internal var presenter: PhotoListPresenterPrototype!
     
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var reloadButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.presenter.viewDidLoad()
     }
     
@@ -44,12 +45,19 @@ extension PhotoListViewController: PhotoListView {
     }
  
     func reloadData() {
-        self.tableView.isHidden = false
         self.tableView.reloadData()
+
+        self.tableView.isHidden = false
+        self.errorLabel.isHidden = true
+        self.reloadButton.isHidden = true
     }
 
     func show(errorMessage: String) {
+        self.errorLabel.text = errorMessage
+
         self.tableView.isHidden = true
+        self.errorLabel.isHidden = false
+        self.reloadButton.isHidden = false
     }
 
     func scroll(to indexPath: IndexPath) {
@@ -74,14 +82,14 @@ extension PhotoListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.presenter.estimatedHeightForRow(parentView: tableView, at: indexPath)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.presenter.didSelectedRow(at: indexPath)
     }
-        
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        self.checkScrollToLastContent(of: scrollView)
-    }
-    
+//            
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         _ = decelerate ? nil : self.checkScrollToLastContent(of: scrollView)
     }

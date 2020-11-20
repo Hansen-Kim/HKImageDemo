@@ -19,14 +19,16 @@ extension String: ImageConvertable {
     var asImage: UIImage? { return UIImage(named: self) }
 }
 
+typealias ImageFetchHandler = (APISession?, UIImage?) -> Void
+
 enum Image: ImageConvertable {
-    case url(_ url: URL, placeholder: ImageConvertable)
+    case url(_ url: URL, placeholder: ImageConvertable?)
     case local(image: ImageConvertable)
     
     var asImage: UIImage? {
         switch self {
             case .url(let url, let placeholder):
-                return ImageCache.shared.image(for: url) ?? placeholder.asImage
+                return ImageCache.shared.image(for: url) ?? placeholder?.asImage
             case .local(let image):
                 return image.asImage
         }
@@ -38,6 +40,59 @@ enum Image: ImageConvertable {
                 return ImageCache.shared.isExistInMemory(of: url) ? nil : url
             default:
                 return nil
+        }
+    }
+    
+    func fetch(_ handler: @escaping ImageFetchHandler)  {
+        guard let url = self.url else {
+            handler(nil, self.asImage)
+            return
+        }
+        self.fetch(url: url, handler: handler)
+    }
+    
+    private func fetch(url: URL, handler: @escaping ImageFetchHandler) {
+        ImageCache.shared.storageImage(for: url) {
+            if let image = $0 {
+                DispatchQueue.main.async {
+                    handler(nil, image)
+                }
+            } else {
+                do {
+                    let imageSession = try API
+                        .get
+                        .session(url: url)
+                    
+                    _ = imageSession
+                        .fetch { (result: APIResult<Data>) in
+                            guard let data = result.value, let image = UIImage(data: data) else { return }
+                            ImageCache.shared.add(url: url, data: data)
+                            DispatchQueue.main.async {
+                                handler(imageSession, image)
+                            }
+                        }
+                    handler(imageSession, nil)
+                } catch _ { }
+            }
+        }
+    }
+}
+
+extension Image: Equatable {
+    static func ==(lhs: Image, rhs: Image) -> Bool {
+        switch (lhs, rhs) {
+            case (.url(let lUrl, _), .url(let rUrl, _)):
+                return lUrl == rUrl
+            case (.local(let lImage), .local(let rImage)):
+                if let lImageName = lImage as? String, let rImageName = rImage as? String {
+                    return lImageName == rImageName
+                } else if let lImage = lImage as? UIImage, let rImage = rImage as? UIImage {
+                    return lImage.isEqual(rImage)
+                } else {
+                    return false
+                }
+            default:
+                return false
         }
     }
 }
@@ -258,42 +313,37 @@ private class ImageCache {
 }
 
 private var kUIImageViewSessionKey = UInt8()
+private var kUIImageViewImageKey = UInt8()
 
 extension UIImageView {
     private var imageSession: APISession? {
         get { return objc_getAssociatedObject(self, &kUIImageViewSessionKey) as? APISession }
         set { objc_setAssociatedObject(self, &kUIImageViewSessionKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)}
     }
+    private var _image: Image? {
+        get { return objc_getAssociatedObject(self, &kUIImageViewImageKey) as? Image }
+        set { objc_setAssociatedObject(self, &kUIImageViewImageKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)}
+    }
     
     func fetch(_ image: Image) {
         self.imageSession = nil
-        self.image = image.asImage
-
-        guard let url = image.url else { return }
-        self.fetch(url: url)
-    }
-    
-    private func fetch(url: URL) {
-        ImageCache.shared.storageImage(for: url) { [weak self] in
+        self._image = image
+        image.fetch { [weak self] (session, result) in
             guard let self = self else { return }
-            if let image = $0 {
-                DispatchQueue.main.async {
-                    self.image = image
-                }
-            } else {
-                do {
-                    self.imageSession = try API
-                        .get
-                        .session(url: url)
-                        .fetch { [weak self] (result: APIResult<Data>) in
-                            guard let self = self, let data = result.value, let image = UIImage(data: data) else { return }
-                            ImageCache.shared.add(url: url, data: data)
-                            DispatchQueue.main.async {
-                                self.image = image
-                            }
-                        }
-                } catch _ { }
+            switch (session, result) {
+                case (nil, let result):
+                    self._image = nil
+                    self.image = result
+                case (let session, nil):
+                    if self._image == image {
+                        self.imageSession = session
+                    }
+                case (let session, let result):
+                    if self._image == image, session === self.imageSession {
+                        self._image = nil
+                        self.image = result
+                    }
             }
         }
-    }
+    }    
 }
