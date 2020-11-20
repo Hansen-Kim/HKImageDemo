@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CommonCrypto
 
 extension CustomStringConvertible where Self: RawRepresentable, Self.RawValue: CustomStringConvertible {
     var description: String { return self.rawValue.description }
@@ -14,6 +15,29 @@ extension CustomStringConvertible where Self: RawRepresentable, Self.RawValue: C
 extension Hashable where Self: CustomStringConvertible {
     func hash(into hasher: inout Hasher) {
         self.description.hash(into: &hasher)
+    }
+}
+
+extension CustomStringConvertible {
+    var md5: Data {
+        var digest = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+        
+        if let data = self.description.data(using: .utf8) {
+            _ = digest.withUnsafeMutableBytes { (digestRawPointer) -> Int in
+                data.withUnsafeBytes { (dataRawPointer) -> Int in
+                    if let dataAddress = dataRawPointer.baseAddress, let digestAddress = digestRawPointer.bindMemory(to: UInt8.self).baseAddress {
+                        CC_MD5(dataAddress, CC_LONG(data.count), digestAddress)
+                    }
+                    return 0
+                }
+            }
+        }
+        
+        return digest
+    }
+    
+    var md5String: String {
+        return self.md5.map({ String(format: "%02hhx", $0) }).joined()
     }
 }
 

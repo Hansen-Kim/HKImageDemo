@@ -9,6 +9,7 @@ import Foundation
 
 protocol PhotoListInteractorOutput: class {
     func photosDidChanged()
+    func currentPhotoDidChanged()
     func errorReceived(_ error: Error)
 }
 

@@ -7,9 +7,13 @@
 
 import UIKit
 
-protocol PhotoListView: class {
+protocol PhotoListView: class, View {
     func willStartFetching()
     func didFinishFetching()
+    
+    func scroll(to indexPath: IndexPath)
+    func reloadData()
+    func show(errorMessage: String)
 }
 
 class PhotoListViewController: UIViewController {
@@ -32,7 +36,19 @@ extension PhotoListViewController: PhotoListView {
     
     func didFinishFetching() {
         self.indicatorView.stopAnimating()
+    }
+ 
+    func reloadData() {
+        self.tableView.isHidden = false
         self.tableView.reloadData()
+    }
+
+    func show(errorMessage: String) {
+        self.tableView.isHidden = true
+    }
+
+    func scroll(to indexPath: IndexPath) {
+        self.tableView.scrollToRow(at: indexPath, at: .none, animated: false)
     }
 }
 

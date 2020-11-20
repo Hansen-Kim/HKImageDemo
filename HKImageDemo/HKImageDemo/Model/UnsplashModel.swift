@@ -37,6 +37,12 @@ struct UnsplashUser: Decodable {
     let links: Link
 }
 
+extension UnsplashUser: Equatable {
+    static func ==(lhs: UnsplashUser, rhs: UnsplashUser) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 struct UnsplashPhoto: Decodable {
     struct Color: Decodable {
         let string: String
@@ -116,6 +122,12 @@ struct UnsplashPhoto: Decodable {
     let exif: EXIF?
     let location: Location?
     let tag: [Tag]?
+}
+
+extension UnsplashPhoto: Equatable {
+    static func ==(lhs: UnsplashPhoto, rhs: UnsplashPhoto) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct UnsplashPhotoContainer: Decodable {

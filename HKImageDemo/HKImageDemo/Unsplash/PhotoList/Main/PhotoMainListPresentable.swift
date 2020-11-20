@@ -14,6 +14,13 @@ protocol PhotoMainListPresenterPrototype: PhotoListPresenterPrototype {
 class PhotoMainListPresenter: PhotoMainListPresenterPrototype {
     private weak var view: PhotoListView!
     private var interactor: PhotoListInteractorPrototype
+    private var router: PhotoListRouterPrototype
+    
+    init(with view: PhotoListView, interactor: PhotoListInteractorPrototype, router: PhotoListRouterPrototype) {
+        self.view = view
+        self.interactor = interactor
+        self.router = router
+    }
     
     var hasMore: Bool {
         get { return self.interactor.hasMore }

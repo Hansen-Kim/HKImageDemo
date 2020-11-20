@@ -77,6 +77,10 @@ fileprivate final class _APISession: APISession {
         self.scheme = scheme
     }
     
+    deinit {
+        _ = self.cancel()
+    }
+    
     var url: URL {
         return self.components.url!
     }
