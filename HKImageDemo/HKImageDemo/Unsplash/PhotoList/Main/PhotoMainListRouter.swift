@@ -21,6 +21,7 @@ class PhotoMainListRouter: PhotoListRouter, PhotoMainListRouterPrototype {
             if let mainPhotoListViewController = source as? PhotoMainListViewController,
                let searchPhotoListViewController = destination as? PhotoSearchListViewController {
                 let searchController = UISearchController(searchResultsController: searchPhotoListViewController)
+                searchController.searchResultsUpdater = searchPhotoListViewController
                 mainPhotoListViewController.navigationItem.searchController = searchController
             }
         }

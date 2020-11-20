@@ -44,11 +44,12 @@ extension PhotoMainListViewController: PhotoMainListView {
                 let image = Image.url(randomPhoto.urls.regular, placeholder: nil)
                 self.image = image
                 
-                image.fetch { [weak self] (session, result) in
+                image.fetch { [weak self] (session, result, isFinish) in
                     guard let self = self else { return }
                     switch (session, result) {
+                        case (nil, nil):
+                            break
                         case (nil, let result):
-                            self.image = nil
                             self.setNavigationBarBackgroundImage(result)
                         case (let session, nil):
                             if self.image == image {
@@ -56,9 +57,12 @@ extension PhotoMainListViewController: PhotoMainListView {
                             }
                         case (let session, let result):
                             if self.image == image, session === self.imageSession {
-                                self.image = nil
                                 self.setNavigationBarBackgroundImage(result)
                             }
+                    }
+                    
+                    if isFinish {
+                        self.image = nil
                     }
                 }
             }

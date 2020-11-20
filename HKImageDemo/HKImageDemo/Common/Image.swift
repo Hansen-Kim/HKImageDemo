@@ -19,7 +19,7 @@ extension String: ImageConvertable {
     var asImage: UIImage? { return UIImage(named: self) }
 }
 
-typealias ImageFetchHandler = (APISession?, UIImage?) -> Void
+typealias ImageFetchHandler = (APISession?, UIImage?, Bool) -> Void
 
 enum Image: ImageConvertable {
     case url(_ url: URL, placeholder: ImageConvertable?)
@@ -44,8 +44,10 @@ enum Image: ImageConvertable {
     }
     
     func fetch(_ handler: @escaping ImageFetchHandler)  {
+        handler(nil, self.asImage, false)
+        
         guard let url = self.url else {
-            handler(nil, self.asImage)
+            handler(nil, nil, true)
             return
         }
         self.fetch(url: url, handler: handler)
@@ -55,7 +57,7 @@ enum Image: ImageConvertable {
         ImageCache.shared.storageImage(for: url) {
             if let image = $0 {
                 DispatchQueue.main.async {
-                    handler(nil, image)
+                    handler(nil, image, true)
                 }
             } else {
                 do {
@@ -68,10 +70,10 @@ enum Image: ImageConvertable {
                             guard let data = result.value, let image = UIImage(data: data) else { return }
                             ImageCache.shared.add(url: url, data: data)
                             DispatchQueue.main.async {
-                                handler(imageSession, image)
+                                handler(imageSession, image, true)
                             }
                         }
-                    handler(imageSession, nil)
+                    handler(imageSession, nil, false)
                 } catch _ { }
             }
         }
@@ -328,11 +330,13 @@ extension UIImageView {
     func fetch(_ image: Image) {
         self.imageSession = nil
         self._image = image
-        image.fetch { [weak self] (session, result) in
+        
+        image.fetch { [weak self] (session, result, isFinish) in
             guard let self = self else { return }
             switch (session, result) {
+                case (nil, nil):
+                    break
                 case (nil, let result):
-                    self._image = nil
                     self.image = result
                 case (let session, nil):
                     if self._image == image {
@@ -340,9 +344,12 @@ extension UIImageView {
                     }
                 case (let session, let result):
                     if self._image == image, session === self.imageSession {
-                        self._image = nil
                         self.image = result
                     }
+            }
+            
+            if isFinish {
+                self._image = nil
             }
         }
     }    

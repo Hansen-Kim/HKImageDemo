@@ -12,14 +12,18 @@ protocol PhotoSearchListInteractorOutput: PhotoListInteractorOutput {
 }
 
 protocol PhotoSearchListInteractorPrototype: PhotoListInteractorPrototype {
-    
+    var query: String { get set }
 }
 
 class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
     weak var presenter: PhotoSearchListInteractorOutput?
     
-    var hasMore: Bool {
-        return false
+    private(set) var hasMore: Bool = false
+    
+    var query: String = "" {
+        didSet {
+            self.reload()
+        }
     }
     
     var photos: [UnsplashPhoto] = [] {
@@ -39,26 +43,33 @@ class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
     
     func reload() {
         self.photos.removeAll()
+        self.currentPage = 1
+        self.hasMore = false
+        
+        self.fetchPhotos(query: self.query, page: 1)
     }
     
     func more() {
-
+        self.fetchPhotos(query: self.query, page: self.currentPage + 1)
     }
     
     private var currentPage: Int = 1
     
-    private func fetchPhotos(page: Int) {
+    private func fetchPhotos(query: String, page: Int) {
+        guard query.count > 2 else { return }
+        
         do {
             _ = try Unsplash
-                .photoList(page: self.currentPage)
+                .searchPhoto(query: query, page: page)
                 .session()
-                .unsplashfetch { (result: APIResult<[UnsplashPhoto]>) in
+                .unsplashfetch { (result: APIResult<UnsplashPhotoContainer>) in
                     switch result {
                         case .success(let value, _, _):
+                            self.hasMore = value.totalPages > page
                             if page > 1 {
-                                self.photos.append(contentsOf: value)
+                                self.photos.append(contentsOf: value.results)
                             } else {
-                                self.photos = value
+                                self.photos = value.results
                             }
                             self.currentPage = page
                         case .failure(let error, _, _):
