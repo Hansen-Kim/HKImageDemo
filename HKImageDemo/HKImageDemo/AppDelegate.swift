@@ -14,7 +14,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window?.tintColor = UIColor(named: "mainTintColor")
         
+        self.initialRoute()
+        
         return true
+    }
+    
+    func initialRoute() {
+        if let navigationController = self.window?.rootViewController as? UINavigationController {
+            UnsplashInitialRouter(with: navigationController).showMainList()
+        } else {
+            fatalError("Root window doesn't have 'UINavigationController'")
+        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

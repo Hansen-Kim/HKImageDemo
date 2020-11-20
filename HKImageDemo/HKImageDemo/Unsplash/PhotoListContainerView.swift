@@ -7,14 +7,7 @@
 
 import UIKit
 
-protocol PhotoContainerView {
+protocol PhotoContainerView: UIView {
     var photoImageView: UIImageView! { get }
     var photoTitleLabel: UILabel! { get }
 }
-
-class PhotoListTableViewCell: UITableViewCell {
-    @IBOutlet var photoImageView: UIImageView!
-    @IBOutlet var photoTitleLabel: UILabel!
-}
-
-extension PhotoListTableViewCell: PhotoContainerView { }

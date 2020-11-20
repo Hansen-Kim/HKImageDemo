@@ -21,6 +21,8 @@
 		3AA50CF425661DF500D7392C /* PhotoListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA50CF325661DF500D7392C /* PhotoListPresenter.swift */; };
 		3AA50CFB25661F1A00D7392C /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA50CFA25661F1A00D7392C /* Presenter.swift */; };
 		3AB8E57B2564F407006CC56F /* ModelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB8E57A2564F407006CC56F /* ModelExtension.swift */; };
+		3ABB88C225674EF70036D0EF /* PhotoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABB88C125674EF70036D0EF /* PhotoListTableViewCell.swift */; };
+		3ABB88C6256750EF0036D0EF /* UnsplashInitialRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABB88C5256750EF0036D0EF /* UnsplashInitialRouter.swift */; };
 		3AD7CDBF25635D13002B97CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7CDBE25635D13002B97CB /* AppDelegate.swift */; };
 		3AD7CDC625635D13002B97CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC425635D13002B97CB /* Main.storyboard */; };
 		3AD7CDC825635D14002B97CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AD7CDC725635D14002B97CB /* Assets.xcassets */; };
@@ -62,6 +64,8 @@
 		3AA50CF325661DF500D7392C /* PhotoListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListPresenter.swift; sourceTree = "<group>"; };
 		3AA50CFA25661F1A00D7392C /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		3AB8E57A2564F407006CC56F /* ModelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelExtension.swift; sourceTree = "<group>"; };
+		3ABB88C125674EF70036D0EF /* PhotoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListTableViewCell.swift; sourceTree = "<group>"; };
+		3ABB88C5256750EF0036D0EF /* UnsplashInitialRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashInitialRouter.swift; sourceTree = "<group>"; };
 		3AD7CDBB25635D12002B97CB /* HKImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HKImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AD7CDBE25635D13002B97CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3AD7CDC525635D13002B97CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 				3AA50CE72566168E00D7392C /* PhotoListInteractor.swift */,
 				3AA50CF325661DF500D7392C /* PhotoListPresenter.swift */,
 				3A15FA9125665541008442CF /* PhotoListRouter.swift */,
+				3ABB88C125674EF70036D0EF /* PhotoListTableViewCell.swift */,
 			);
 			path = PhotoList;
 			sourceTree = "<group>";
@@ -142,6 +147,7 @@
 		3AA50CF725661EC600D7392C /* Unsplash */ = {
 			isa = PBXGroup;
 			children = (
+				3ABB88C5256750EF0036D0EF /* UnsplashInitialRouter.swift */,
 				3AA50CED2566197D00D7392C /* PhotoListContainerView.swift */,
 				3AA50CD125660E2B00D7392C /* PhotoList */,
 				3AA50CD825660E8900D7392C /* PhotoPage */,
@@ -338,9 +344,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ABB88C225674EF70036D0EF /* PhotoListTableViewCell.swift in Sources */,
 				3AD96F3F2564B85F00C1490E /* UnsplashModel.swift in Sources */,
 				3AA50CF425661DF500D7392C /* PhotoListPresenter.swift in Sources */,
 				3AF9D5AA25668A79001B4971 /* Image.swift in Sources */,
+				3ABB88C6256750EF0036D0EF /* UnsplashInitialRouter.swift in Sources */,
 				3AA50CE22566110000D7392C /* PhotoSearchListViewController.swift in Sources */,
 				3AA50CFB25661F1A00D7392C /* Presenter.swift in Sources */,
 				3AA50CE82566168E00D7392C /* PhotoListInteractor.swift in Sources */,
@@ -523,7 +531,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = accentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EUUSR7G48;
 				INFOPLIST_FILE = HKImageDemo/Info.plist;
@@ -544,7 +552,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = accentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EUUSR7G48;
 				INFOPLIST_FILE = HKImageDemo/Info.plist;
@@ -569,17 +577,20 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EUUSR7G48;
 				INFOPLIST_FILE = HKImageDemoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = seunghan.kim.HKImageDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HKImageDemo.app/HKImageDemo";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
 		};
@@ -591,17 +602,20 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EUUSR7G48;
 				INFOPLIST_FILE = HKImageDemoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = seunghan.kim.HKImageDemoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HKImageDemo.app/HKImageDemo";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
 		};

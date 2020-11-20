@@ -41,6 +41,20 @@ extension CustomStringConvertible {
     }
 }
 
+extension Array where Element: NSAttributedString {
+    public func joined(separator: NSAttributedString) -> NSAttributedString {
+        if let first = self.first {
+            let result = NSMutableAttributedString(attributedString: first)
+            self.dropFirst().forEach {
+                result.append(separator)
+                result.append($0)
+            }
+            return result
+        }
+        return NSMutableAttributedString(string: "")
+    }
+}
+
 extension UIColor {
     convenience init(hexString: String) {
         let hexString = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

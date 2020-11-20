@@ -11,7 +11,7 @@ protocol PhotoListRouterPrototype: Router {
     func showPhotoPage(with interactor: PhotoListInteractorPrototype)
 }
 
-struct PhotoListRouter: PhotoListRouterPrototype {
+class PhotoListRouter: PhotoListRouterPrototype {
     private weak var photoListView: PhotoListView?
     init(with view: PhotoListView) {
         self.photoListView = view

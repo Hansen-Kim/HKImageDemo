@@ -90,6 +90,7 @@ struct UnsplashPhoto: Decodable {
     let description: String?
     let altDescription: String?
     let user: UnsplashUser
+    let sponser: UnsplashUser?
     let currentUserCollections: [Collection]
     let urls: URLContainer
     let links: Link

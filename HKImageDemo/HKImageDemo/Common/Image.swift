@@ -7,16 +7,28 @@
 
 import UIKit
 
-enum Image {
-    case url(_ url: URL, placeholder: String)
-    case local(name: String)
+protocol ImageConvertable {
+    var asImage: UIImage? { get }
+}
+
+extension UIImage: ImageConvertable {
+    var asImage: UIImage? { return self }
+}
+
+extension String: ImageConvertable {
+    var asImage: UIImage? { return UIImage(named: self) }
+}
+
+enum Image: ImageConvertable {
+    case url(_ url: URL, placeholder: ImageConvertable)
+    case local(image: ImageConvertable)
     
     var asImage: UIImage? {
         switch self {
             case .url(let url, let placeholder):
-                return ImageCache.shared.image(for: url) ?? UIImage(named: placeholder)
-            case .local(let name):
-                return UIImage(named: name)
+                return ImageCache.shared.image(for: url) ?? placeholder.asImage
+            case .local(let image):
+                return image.asImage
         }
     }
     

@@ -145,7 +145,7 @@ fileprivate final class _APISession: APISession {
                 }
 
                 do {
-                    let value = try self.decoder.decode(T.self, from: data)
+                    let value: T = try data.decode(with: self.decoder)
                     handler(.success(value: value, response: response, data: data))
                 } catch let exception {
                     handler(.failure(error: exception, response: response, data: data))
@@ -164,6 +164,16 @@ fileprivate final class _APISession: APISession {
     func cancel() -> Self {
         self.task?.cancel()
         return self
+    }
+}
+
+extension Data {
+    func decode<T>(with decoder: APIDecoder, type: T.Type = T.self) throws -> T where T: Decodable {
+        if type == Data.self {
+            return self as! T
+        } else {
+            return try decoder.decode(type, from: self)
+        }
     }
 }
 
