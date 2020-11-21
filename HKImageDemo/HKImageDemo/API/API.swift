@@ -129,15 +129,15 @@ fileprivate final class _APISession: APISession {
                     return
                 }
 
-                #if DEBUG
-                self.log(message: "url: \(url)")
-                if let response = response as? HTTPURLResponse {
-                    self.log(message: "response: \(response)")
-                }
-                if let received = String(data: data, encoding: .utf8) {
-                    self.log(message: "received: \(received)")
-                }
-                #endif
+//                #if DEBUG
+//                self.log(message: "url: \(url)")
+//                if let response = response as? HTTPURLResponse {
+//                    self.log(message: "response: \(response)")
+//                }
+//                if let received = String(data: data, encoding: .utf8) {
+//                    self.log(message: "received: \(received)")
+//                }
+//                #endif
 
                 if let httpResponse = response as? HTTPURLResponse, let error = httpResponse.asError {
                     handler(.failure(error: error, response: response, data: data))

@@ -10,4 +10,6 @@ import UIKit
 protocol PhotoContainerView: UIView {
     var photoImageView: UIImageView! { get }
     var photoTitleLabel: UILabel! { get }
+    
+    func configure(with photo: UnsplashPhoto, parentView: UIView)
 }

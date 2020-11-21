@@ -55,6 +55,13 @@ extension Array where Element: NSAttributedString {
     }
 }
 
+extension Bundle {
+    func load<T>(type: T.Type = T.self, owner: Any? = nil, options: [UINib.OptionsKey : Any]? = nil) -> T {
+        let name = String(describing: type)
+        return self.loadNibNamed(name, owner: owner, options: options)?.first as! T
+    }
+}
+
 extension UIColor {
     convenience init(hexString: String) {
         let hexString = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -94,6 +101,18 @@ extension UIColor {
                   green: green / 255.0,
                   blue: blue / 255.0,
                   alpha: alpha / 255.0)
+    }
+}
+
+extension UIViewController {
+    func showAlert(with message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(
+            UIAlertAction(title: "OK", style: .default, handler: { [weak alertController] _ in
+                alertController?.dismiss(animated: true, completion: nil)
+            })
+        )
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

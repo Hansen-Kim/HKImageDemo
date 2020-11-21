@@ -53,6 +53,13 @@ struct UnsplashPhoto: Decodable {
         }
     }
     
+    struct SponsorShip: Decodable {
+        let impressionUrls: [URL]?
+        let tagline: String?
+        let taglineUrl: URL?
+        let sponsor: UnsplashUser?
+    }
+    
     struct Collection: Decodable {
         let id: Int
         let title: String
@@ -90,7 +97,7 @@ struct UnsplashPhoto: Decodable {
     let description: String?
     let altDescription: String?
     let user: UnsplashUser
-    let sponser: UnsplashUser?
+    let sponsorship: SponsorShip?
     let currentUserCollections: [Collection]
     let urls: URLContainer
     let links: Link

@@ -37,21 +37,18 @@
                                 <color key="backgroundColor" name="defaultBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PhotoListTableViewCell" id="cCy-cv-4ha" customClass="PhotoListTableViewCell" customModule="HKImageDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="81"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cCy-cv-4ha" id="yl8-Vp-qz0">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4zc-cM-aL9">
-                                                    <rect key="frame" x="0.0" y="0.6666666666666643" width="375" height="80"/>
+                                                    <rect key="frame" x="0.0" y="0.66666666666666785" width="375" height="41"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="80" id="ue8-oX-QXC"/>
-                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ah-cL-try">
-                                                    <rect key="frame" x="12" y="51" width="36.666666666666664" height="18"/>
+                                                    <rect key="frame" x="12" y="12" width="36.666666666666664" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" name="photoTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -72,7 +69,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <outlet property="heightConstraint" destination="ue8-oX-QXC" id="YCc-xu-JXu"/>
                                             <outlet property="photoImageView" destination="4zc-cM-aL9" id="94S-dm-qGN"/>
                                             <outlet property="photoTitleLabel" destination="9Ah-cL-try" id="IaZ-cF-Dk4"/>
                                         </connections>
@@ -138,6 +134,7 @@
                         <outlet property="indicatorView" destination="R5p-bx-TYt" id="qHk-QV-HNw"/>
                         <outlet property="reloadButton" destination="OX1-Nr-rKL" id="UKX-vV-PaQ"/>
                         <outlet property="tableView" destination="Ql6-EB-AZ9" id="VpR-ue-b9f"/>
+                        <segue destination="TtO-Pp-4Nu" kind="presentation" identifier="PhotoPageViewController" id="TWm-xa-Y19"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -166,10 +163,69 @@
             </objects>
             <point key="canvasLocation" x="-848" y="188"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="RBH-by-Qad">
+            <objects>
+                <navigationController id="uSG-D7-JWh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="82R-EG-xvc">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f7R-5J-3lI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2202" y="933"/>
+        </scene>
+        <!--Photo Page View Controller-->
+        <scene sceneID="rLB-TD-bG4">
+            <objects>
+                <viewController storyboardIdentifier="PhotoPageViewController" modalPresentationStyle="fullScreen" id="TtO-Pp-4Nu" customClass="PhotoPageViewController" customModule="HKImageDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Ad-IZ-GhI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zEC-5q-wVE" customClass="PageView" customModule="HKImageDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outlet property="datasource" destination="TtO-Pp-4Nu" id="IYM-U1-81z"/>
+                                    <outlet property="pageViewDelegate" destination="TtO-Pp-4Nu" id="0Jl-NG-vFT"/>
+                                </connections>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E8v-Rz-bfQ">
+                                <rect key="frame" x="318" y="56" width="45" height="45"/>
+                                <color key="tintColor" name="photoTextColor"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="close"/>
+                                <connections>
+                                    <action selector="closeButtonDidTapped:" destination="TtO-Pp-4Nu" eventType="touchUpInside" id="Wty-SS-SRN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="FRd-wv-ftE"/>
+                        <color key="backgroundColor" name="mainTintColor"/>
+                        <constraints>
+                            <constraint firstItem="zEC-5q-wVE" firstAttribute="top" secondItem="5Ad-IZ-GhI" secondAttribute="top" id="EIP-aa-JYZ"/>
+                            <constraint firstItem="zEC-5q-wVE" firstAttribute="leading" secondItem="5Ad-IZ-GhI" secondAttribute="leading" id="Jit-3Z-A4s"/>
+                            <constraint firstAttribute="trailing" secondItem="zEC-5q-wVE" secondAttribute="trailing" id="RNc-Vz-nAe"/>
+                            <constraint firstItem="FRd-wv-ftE" firstAttribute="trailing" secondItem="E8v-Rz-bfQ" secondAttribute="trailing" constant="12" id="Rsk-KW-owE"/>
+                            <constraint firstItem="E8v-Rz-bfQ" firstAttribute="top" secondItem="FRd-wv-ftE" secondAttribute="top" constant="12" id="bsf-oE-lPG"/>
+                            <constraint firstAttribute="bottom" secondItem="zEC-5q-wVE" secondAttribute="bottom" id="lpj-rG-qeM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="pageView" destination="zEC-5q-wVE" id="5NZ-Ga-6M2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lxb-1n-CFG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-498" y="933"/>
+        </scene>
         <!--Splash View Controller-->
         <scene sceneID="Ib8-kT-Jcc">
             <objects>
-                <viewController title="Splash View Controller" id="Lgn-l8-T4e" sceneMemberID="viewController">
+                <viewController title="Splash View Controller" id="Lgn-l8-T4e" customClass="ViewController" customModule="HKImageDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="G8I-hP-vRt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -211,21 +267,18 @@
                                 <color key="backgroundColor" name="defaultBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PhotoListTableViewCell" id="zVN-DG-f5O" customClass="PhotoListTableViewCell" customModule="HKImageDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="81"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="42"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zVN-DG-f5O" id="SWM-ON-NSb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YKk-qQ-aBj">
-                                                    <rect key="frame" x="0.0" y="0.6666666666666643" width="375" height="80"/>
+                                                    <rect key="frame" x="0.0" y="0.66666666666666785" width="375" height="41"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="80" id="M2A-lT-FnK"/>
-                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hx-cr-IS9">
-                                                    <rect key="frame" x="12" y="51" width="36.666666666666664" height="18"/>
+                                                    <rect key="frame" x="12" y="12" width="36.666666666666664" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" name="photoTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -246,7 +299,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <outlet property="heightConstraint" destination="M2A-lT-FnK" id="w9O-ig-zyx"/>
                                             <outlet property="photoImageView" destination="YKk-qQ-aBj" id="vf4-v5-DqA"/>
                                             <outlet property="photoTitleLabel" destination="4hx-cr-IS9" id="WpP-xF-lNn"/>
                                         </connections>
@@ -312,6 +364,7 @@
                         <outlet property="indicatorView" destination="u68-Be-ADs" id="Usm-xO-6Me"/>
                         <outlet property="reloadButton" destination="h63-Qn-a5t" id="eAA-y5-z1j"/>
                         <outlet property="tableView" destination="96n-ZK-zUq" id="PoR-nA-0iN"/>
+                        <segue destination="TtO-Pp-4Nu" kind="presentation" identifier="PhotoPageViewController" id="g8K-ib-yfU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EN2-xd-lIO" sceneMemberID="firstResponder"/>
@@ -341,8 +394,12 @@
             <point key="canvasLocation" x="-153" y="188"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="g8K-ib-yfU"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" name="mainTintColor"/>
     <resources>
+        <image name="close" width="25" height="25"/>
         <image name="logo" width="403" height="329"/>
         <image name="reload" width="10.666666984558105" height="10.666666984558105"/>
         <namedColor name="accentColor">

@@ -12,6 +12,9 @@ protocol Presenter {
     
     func viewWillAppear()
     func viewWillDisappear()
+    
+    func viewWillLayoutSubviews()
+    func viewDidLayoutSubviews()
 }
 
 extension Presenter {
@@ -19,4 +22,7 @@ extension Presenter {
 
     func viewWillAppear() { }
     func viewWillDisappear() { }
+    
+    func viewWillLayoutSubviews() { }
+    func viewDidLayoutSubviews() { }
 }

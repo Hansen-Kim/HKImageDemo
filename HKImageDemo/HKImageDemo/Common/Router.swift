@@ -22,6 +22,7 @@ protocol Router {
     
     func show(with identifier: RouteIdentifier, preparedHandler: @escaping PreparedHandler)
     func show(with identifier: RouteIdentifier, routeType: RouteType, animated: Bool, preparedHandler: @escaping PreparedHandler)
+    func hide(animated: Bool)
 }
 
 extension Router {
@@ -36,6 +37,9 @@ extension Router {
             preparedHandler(source, destination)
             self.view?.show(to: destination, routeType: routeType, animated: animated)
         }
+    }
+    func hide(animated: Bool) {
+        self.view?.hide(animated: animated)
     }
 }
 

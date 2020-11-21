@@ -14,6 +14,8 @@ protocol PhotoListInteractorOutput: class {
 }
 
 protocol PhotoListInteractorPrototype {
+    var output: PhotoListInteractorOutput? { get set }
+    
     var hasMore: Bool { get }
     var photos: [UnsplashPhoto] { get }
     

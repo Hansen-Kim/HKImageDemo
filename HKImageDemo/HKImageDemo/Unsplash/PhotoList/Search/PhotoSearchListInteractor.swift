@@ -16,8 +16,12 @@ protocol PhotoSearchListInteractorPrototype: PhotoListInteractorPrototype {
 }
 
 class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
-    weak var presenter: PhotoSearchListInteractorOutput?
-    
+    weak var output: PhotoListInteractorOutput?
+    var presenter: PhotoSearchListInteractorOutput? {
+        get { return self.output as? PhotoSearchListInteractorOutput }
+        set { self.output = newValue }
+    }
+
     private(set) var hasMore: Bool = false
     
     var query: String = "" {
@@ -29,14 +33,14 @@ class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
     var photos: [UnsplashPhoto] = [] {
         didSet {
             DispatchQueue.main.async {
-                self.presenter?.photosDidChanged()
+                self.output?.photosDidChanged()
             }
         }
     }
     var currentPhoto: UnsplashPhoto? = nil {
         didSet {
             DispatchQueue.main.async {
-                self.presenter?.currentPhotoDidChanged()
+                self.output?.currentPhotoDidChanged()
             }
         }
     }
@@ -83,7 +87,7 @@ class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
     
     private func errorReceived(_ error: Error) {
         DispatchQueue.main.async {
-            self.presenter?.errorReceived(error)
+            self.output?.errorReceived(error)
         }
     }
 }

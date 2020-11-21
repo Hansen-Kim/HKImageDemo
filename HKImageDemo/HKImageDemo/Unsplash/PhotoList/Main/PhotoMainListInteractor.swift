@@ -18,23 +18,26 @@ protocol PhotoMainListInteractorProtoype: PhotoListInteractorPrototype {
 }
 
 class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
-    weak var presenter: PhotoMainListInteractorOutput?
-    
+    weak var output: PhotoListInteractorOutput?
+    var presenter: PhotoMainListInteractorOutput? {
+        get { return self.output as? PhotoMainListInteractorOutput }
+        set { self.output = newValue }
+    }
     var hasMore: Bool {
         return self.photos.count > 0
     }
     
-    var photos: [UnsplashPhoto] = [] {
+    private(set) var photos: [UnsplashPhoto] = [] {
         didSet {
             DispatchQueue.main.async {
-                self.presenter?.photosDidChanged()
+                self.output?.photosDidChanged()
             }
         }
     }
     var currentPhoto: UnsplashPhoto? = nil {
         didSet {
             DispatchQueue.main.async {
-                self.presenter?.currentPhotoDidChanged()
+                self.output?.currentPhotoDidChanged()
             }
         }
     }
@@ -61,7 +64,7 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
     private func fetchPhotos(page: Int) {
         do {
             _ = try Unsplash
-                .photoList(page: self.currentPage)
+                .photoList(page: page)
                 .session()
                 .unsplashfetch { (result: APIResult<[UnsplashPhoto]>) in
                     switch result {
@@ -101,7 +104,7 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
     
     private func errorReceived(_ error: Error) {
         DispatchQueue.main.async {
-            self.presenter?.errorReceived(error)
+            self.output?.errorReceived(error)
         }
     }
 }

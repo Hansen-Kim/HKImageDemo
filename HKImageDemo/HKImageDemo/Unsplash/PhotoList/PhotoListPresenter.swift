@@ -12,7 +12,7 @@ protocol PhotoListPresenterPrototype: class, Presenter {
     
     func numberOfRow(in section: Int) -> Int
     func didSelectedRow(at indexPath: IndexPath)
-    func estimatedHeightForRow(parentView: UIView, at indexPath: IndexPath) -> CGFloat
+    func heightForRow(parentView: UIView, at indexPath: IndexPath) -> CGFloat
     func configure(parentView: UIView, photoContainerView: PhotoContainerView, at indexPath: IndexPath)
     
     func reload()
@@ -31,7 +31,7 @@ class PhotoListPresenter: PhotoListPresenterPrototype {
     }
     
     var hasMore: Bool {
-        get { return self.interactor.hasMore }
+        return self.interactor.hasMore
     }
     
     func numberOfRow(in section: Int) -> Int {
@@ -41,7 +41,7 @@ class PhotoListPresenter: PhotoListPresenterPrototype {
         self.interactor.currentPhoto = self.photo(at: indexPath)
         self.router.showPhotoPage(with: self.interactor)
     }
-    func estimatedHeightForRow(parentView: UIView, at indexPath: IndexPath) -> CGFloat {
+    func heightForRow(parentView: UIView, at indexPath: IndexPath) -> CGFloat {
         let photo = self.photo(at: indexPath)
         
         let width = parentView.bounds.size.width
@@ -49,12 +49,8 @@ class PhotoListPresenter: PhotoListPresenterPrototype {
     }
     func configure(parentView: UIView, photoContainerView: PhotoContainerView, at indexPath: IndexPath) {
         let photo = self.photo(at: indexPath)
-        photoContainerView.photoTitleLabel.attributedText = photo.title
-        photoContainerView.photoImageView.fetch(photo.image)
-        
-        if let cell = photoContainerView as? PhotoListTableViewCell {
-            cell.heightConstraint.constant = self.estimatedHeightForRow(parentView: parentView, at: indexPath)
-        }
+
+        photoContainerView.configure(with: photo, parentView: parentView)
     }
     
     func viewDidLoad() {
@@ -86,38 +82,5 @@ extension PhotoListPresenter: PhotoListInteractorOutput {
     
     func errorReceived(_ error: Error) {
         self.view.show(errorMessage: error.localizedDescription)
-    }
-}
-
-private extension UnsplashPhoto {
-    var title: NSAttributedString {
-        var components: [NSAttributedString] = []
-        let user: UnsplashUser
-        if let sponser = self.sponser {
-            components.append(
-                NSAttributedString(string: "Sponsor",
-                                   attributes: [
-                                    .font : UIFont.systemFont(ofSize: 14.0, weight: .bold)
-                                   ])
-            )
-            user = sponser
-        } else {
-            user = self.user
-        }
-        components.append(
-            NSAttributedString(string: user.username,
-                               attributes: [
-                                .font : UIFont.systemFont(ofSize: 14.0, weight: .semibold)
-                               ])
-        )
-        return components.joined(separator:
-            NSAttributedString(string: "\n",
-                               attributes: [
-                                .font : UIFont.systemFont(ofSize: 14.0, weight: .semibold)
-                               ]))
-    }
-    
-    var image: Image {
-        return .url(self.urls.regular, placeholder: #imageLiteral(resourceName: "placeholder.png"))
     }
 }

@@ -16,7 +16,7 @@ protocol PhotoListView: class, View {
     func show(errorMessage: String)
 }
 
-class PhotoListViewController: UIViewController {
+class PhotoListViewController: ViewController {
     internal var presenter: PhotoListPresenterPrototype!
     
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
@@ -82,8 +82,12 @@ extension PhotoListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.presenter.heightForRow(parentView: tableView, at: indexPath)
+    }
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.presenter.estimatedHeightForRow(parentView: tableView, at: indexPath)
+        return self.presenter.heightForRow(parentView: tableView, at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

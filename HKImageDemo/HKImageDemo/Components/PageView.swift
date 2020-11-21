@@ -14,14 +14,14 @@ import UIKit
 }
 
 @objc protocol PageViewDelegate: UIScrollViewDelegate {
-    func pageView(_ pageView: PageView, willShowContentView contentView: UIView, at index: UInt)
-    func pageView(_ pageView: PageView, didShowContentView contentView: UIView, at index: UInt)
+    @objc optional func pageView(_ pageView: PageView, willShowContentView contentView: UIView, at index: UInt)
+    @objc optional func pageView(_ pageView: PageView, didShowContentView contentView: UIView, at index: UInt)
     
-    func pageView(_ pageView: PageView, willHideContentView contentView: UIView, at index: UInt)
-    func pageView(_ pageView: PageView, didHideContentView contentView: UIView, at index: UInt)
+    @objc optional func pageView(_ pageView: PageView, willHideContentView contentView: UIView, at index: UInt)
+    @objc optional func pageView(_ pageView: PageView, didHideContentView contentView: UIView, at index: UInt)
     
-    func pageView(_ pageView: PageView, didMoveAt index: UInt)
-    func pageView(_ pageView: PageView, didChangedWeight weight: CGFloat, contentView: UIView)
+    @objc optional func pageView(_ pageView: PageView, didMoveAt index: UInt)
+    @objc optional func pageView(_ pageView: PageView, didChangedWeight weight: CGFloat, contentView: UIView)
 }
 
 class PageView: UIScrollView {
@@ -29,10 +29,28 @@ class PageView: UIScrollView {
         case contentViewIsEmpty(index: UInt)
     }
     
+    private struct DelegationResponsable {
+        var responseWillShowContentView: Bool = false
+        var responseDidShowContentView: Bool = false
+        var responseWillHideContentView: Bool = false
+        var responseDidHideContentView: Bool = false
+        var responseDidMoveAtIndex: Bool = false
+        var responseDidChangedWeight: Bool = false
+    }
+    private var delegationResponsable = DelegationResponsable()
+    
     @IBOutlet weak var datasource: PageViewDatasource?
     @IBOutlet weak var pageViewDelegate: PageViewDelegate? {
         get { return self.delegate as? PageViewDelegate }
-        set { self.delegate = newValue }
+        set {
+            self.delegationResponsable.responseWillShowContentView = newValue?.responds(to: #selector(PageViewDelegate.pageView(_:willShowContentView:at:))) ?? false
+            self.delegationResponsable.responseDidShowContentView = newValue?.responds(to: #selector(PageViewDelegate.pageView(_:didShowContentView:at:))) ?? false
+            self.delegationResponsable.responseWillHideContentView = newValue?.responds(to: #selector(PageViewDelegate.pageView(_:willHideContentView:at:))) ?? false
+            self.delegationResponsable.responseDidHideContentView = newValue?.responds(to: #selector(PageViewDelegate.pageView(_:didHideContentView:at:))) ?? false
+            self.delegationResponsable.responseDidMoveAtIndex = newValue?.responds(to: #selector(PageViewDelegate.pageView(_:didMoveAt:))) ?? false
+            self.delegationResponsable.responseDidChangedWeight = newValue?.responds(to: #selector(PageViewDelegate.pageView(_:didChangedWeight:contentView:))) ?? false
+            self.delegate = newValue
+        }
     }
     
     override init(frame: CGRect) {
@@ -80,7 +98,9 @@ class PageView: UIScrollView {
     var currentIndex: UInt {
         get {
             let bounds = self.bounds
-            return PageView.logicalIndex(index: PageView.absoluteIndex(x: bounds.origin.x, width: bounds.size.width), count: Int(self.numberOfContentView))
+            let numberOfContentView = Int(self.numberOfContentView)
+            let absoluteIndex = PageView.absoluteIndex(x: bounds.origin.x, width: bounds.size.width)
+            return self.isInfinite ? UInt(PageView.logicalIndex(index: absoluteIndex, count: numberOfContentView)) : UInt(max(0, min(absoluteIndex, numberOfContentView - 1)))
         }
     }
     
@@ -127,9 +147,9 @@ class PageView: UIScrollView {
         return Int(floor(x / width))
     }
     
-    private static func logicalIndex(index: Int, count: Int) -> UInt {
+    private static func logicalIndex(index: Int, count: Int) -> Int {
         guard count > 0 else { return 0 }
-        return UInt((count + (index % count)) % count)
+        return (count + (index % count)) % count
     }
     
     private func commonInitialize() {
@@ -137,6 +157,7 @@ class PageView: UIScrollView {
         containerView.backgroundColor = .clear
         
         self.containerView = containerView
+        self.addSubview(containerView)
         super.isPagingEnabled = true
     }
 
@@ -148,6 +169,7 @@ class PageView: UIScrollView {
         
         let numberOfContentView = Int(self.numberOfContentView)
         guard bounds.size.width > 0.0, numberOfContentView > 0 else {
+            self.containerView.subviews.forEach { $0.removeFromSuperview() }
             return
         }
         
@@ -161,19 +183,31 @@ class PageView: UIScrollView {
             
             guard bounds.intersects(frame) else { break }
             
-            let logicalIndex = PageView.logicalIndex(index: absoluteIndex, count: numberOfContentView)
+            let logicalIndex = self.isInfinite ? PageView.logicalIndex(index: absoluteIndex, count: numberOfContentView) : absoluteIndex
             do {
-                if let view = try self.contentView(at: logicalIndex) {
+                guard (0..<numberOfContentView).contains(logicalIndex) else {
+                    absoluteIndex += 1
+                    if logicalIndex < numberOfContentView {
+                        continue
+                    } else {
+                        break
+                    }
+                }
+                
+                if let view = try self.contentView(at: UInt(logicalIndex)) {
                     if view.superview !== self.containerView {
-                        self.pageViewDelegate?.pageView(self, willShowContentView: view, at: logicalIndex)
+                        _ = self.delegationResponsable.responseWillShowContentView ?
+                            self.pageViewDelegate?.pageView!(self, willShowContentView: view, at: UInt(logicalIndex)) : nil
                         self.containerView.addSubview(view)
-                        self.pageViewDelegate?.pageView(self, didShowContentView: view, at: logicalIndex)
+                        _ = self.delegationResponsable.responseDidShowContentView ? self.pageViewDelegate?.pageView!(self, didShowContentView: view, at: UInt(logicalIndex)) : nil
                     }
                     view.frame = frame
                     visibleViews.insert(view)
                     
-                    let weight = 1.0 - min(abs(bounds.midX - view.center.x) / contentWidth, 1.0)
-                    self.pageViewDelegate?.pageView(self, didChangedWeight: weight, contentView: view)
+                    if self.delegationResponsable.responseDidChangedWeight {
+                        let weight = 1.0 - min(abs(bounds.midX - view.center.x) / contentWidth, 1.0)
+                        self.pageViewDelegate?.pageView!(self, didChangedWeight: weight, contentView: view)
+                    }
                 }
             } catch let exception {
                 self.log(message: "exception : \(exception)")
@@ -182,46 +216,23 @@ class PageView: UIScrollView {
             absoluteIndex += 1
         }
         
-        self.subviews
+        self.containerView.subviews
             .filter { !visibleViews.contains($0) }
             .forEach {
-                let index = PageView.logicalIndex(index: PageView.absoluteIndex(x: $0.frame.origin.x, width: contentWidth), count: numberOfContentView)
-                self.pageViewDelegate?.pageView(self, willHideContentView: $0, at: index)
+                let index = UInt(PageView.logicalIndex(index: PageView.absoluteIndex(x: $0.frame.origin.x, width: contentWidth), count: numberOfContentView))
+                _ = self.delegationResponsable.responseWillHideContentView ? self.pageViewDelegate?.pageView!(self, willHideContentView: $0, at: index) : nil
                 $0.removeFromSuperview()
-                self.pageViewDelegate?.pageView(self, didHideContentView: $0, at: index)
+                _ = self.delegationResponsable.responseDidHideContentView ? self.pageViewDelegate?.pageView!(self, didHideContentView: $0, at: index) : nil
             }
         
         self.containerView.bounds = bounds
         
         let currentIndex = self.currentIndex
-        if currentIndex != self._currentIndex {
+        if currentIndex != self._currentIndex, self.delegationResponsable.responseDidMoveAtIndex {
             self._currentIndex = currentIndex
-            self.pageViewDelegate?.pageView(self, didMoveAt: currentIndex)
+            self.pageViewDelegate?.pageView!(self, didMoveAt: currentIndex)
         }
     }
 }
 
 extension PageView: Loggable { }
-
-extension PageViewDelegate {
-    func pageView(_ pageView: PageView, willShowContentView contentView: UIView, at index: UInt) {
-        
-    }
-    func pageView(_ pageView: PageView, didShowContentView contentView: UIView, at index: UInt) {
-        
-    }
-    
-    func pageView(_ pageView: PageView, willHideContentView contentView: UIView, at index: UInt) {
-        
-    }
-    func pageView(_ pageView: PageView, didHideContentView contentView: UIView, at index: UInt) {
-        
-    }
-    
-    func pageView(_ pageView: PageView, didMoveAt index: UInt) {
-        
-    }
-    func pageView(_ pageView: PageView, didChangedWeight weight: CGFloat, contentView: UIView) {
-        
-    }
-}
