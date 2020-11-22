@@ -85,6 +85,6 @@ private extension UnsplashPhoto {
     }
     
     var image: Image {
-        return .url(self.urls.full, placeholder: #imageLiteral(resourceName: "placeholder.png"))
+        return .url(self.urls.full, placeholder: #imageLiteral(resourceName: "logo"))
     }
 }

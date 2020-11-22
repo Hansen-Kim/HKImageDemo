@@ -62,6 +62,8 @@ class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
     private func fetchPhotos(query: String, page: Int) {
         guard query.count > 2 else { return }
         
+        self.output?.willStartFetching()
+
         do {
             _ = try Unsplash
                 .searchPhoto(query: query, page: page)
@@ -79,8 +81,10 @@ class PhotoSearchListInteractor: PhotoSearchListInteractorPrototype {
                         case .failure(let error, _, _):
                             self.errorReceived(error)
                     }
+                    self.output?.didFinishFetched()
                 }
         } catch let exception {
+            self.output?.didFinishFetched()
             self.errorReceived(exception)
         }
     }

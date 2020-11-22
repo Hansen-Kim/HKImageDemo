@@ -8,7 +8,9 @@
 import Foundation
 
 protocol PhotoMainListPresenterPrototype: PhotoListPresenterPrototype {
+    #if RANDOM_PHOTO
     var randomPhoto: UnsplashPhoto? { get }
+    #endif
 }
 
 class PhotoMainListPresenter: PhotoListPresenter, PhotoMainListPresenterPrototype, PhotoMainListInteractorOutput {
@@ -18,7 +20,6 @@ class PhotoMainListPresenter: PhotoListPresenter, PhotoMainListPresenterPrototyp
     private var mainRouter: PhotoMainListRouter? {
         return self.router as? PhotoMainListRouter
     }
-    var randomPhoto: UnsplashPhoto? { self.mainInteractor?.randomPhoto }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,16 +27,17 @@ class PhotoMainListPresenter: PhotoListPresenter, PhotoMainListPresenterPrototyp
         self.mainRouter?.configureSearchView()
     }
     
+    #if RANDOM_PHOTO
+    var randomPhoto: UnsplashPhoto? { self.mainInteractor?.randomPhoto }
+
     func viewWillAppear() {
         if #available(iOS 13.0, *) {
             self.mainInteractor?.fetchRandomPhoto()
         }
     }
-    func viewWillDisappear() {
-        
-    }
 
     func randomPhotoDidChanged() {
         (self.view as? PhotoMainListView)?.changeNavigationImage()
     }
+    #endif
 }

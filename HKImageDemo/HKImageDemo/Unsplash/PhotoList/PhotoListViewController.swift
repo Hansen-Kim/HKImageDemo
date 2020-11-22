@@ -9,7 +9,7 @@ import UIKit
 
 protocol PhotoListView: class, View {
     func willStartFetching()
-    func didFinishFetching()
+    func didFinishFetched()
     
     func scroll(to indexPath: IndexPath)
     func reloadData()
@@ -40,12 +40,18 @@ extension PhotoListViewController: PhotoListView {
         self.indicatorView.startAnimating()
     }
     
-    func didFinishFetching() {
+    func didFinishFetched() {
         self.indicatorView.stopAnimating()
     }
  
     func reloadData() {
-        self.tableView.reloadData()
+        UIView.performWithoutAnimation {
+            // Search Results에서 상세 페이지 확인 후 reload될 때 상세 페이지로 넘어 갔었던 indexPath로 이동하는 문제 수정
+            let contentOffset = self.tableView.contentOffset
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+            self.tableView.setContentOffset(contentOffset, animated: false)
+        }
 
         self.tableView.isHidden = false
         self.errorLabel.isHidden = true

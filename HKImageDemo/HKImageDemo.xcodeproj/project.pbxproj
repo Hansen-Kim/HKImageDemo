@@ -10,7 +10,7 @@
 		3A1132952567A8F00074922F /* PhotoMainListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1132942567A8F00074922F /* PhotoMainListRouter.swift */; };
 		3A1132992567AC1F0074922F /* PhotoSearchListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1132982567AC1F0074922F /* PhotoSearchListInteractor.swift */; };
 		3A11329D2567ACC80074922F /* PhotoSearchListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A11329C2567ACC80074922F /* PhotoSearchListPresenter.swift */; };
-		3A15FA8425663AB6008442CF /* PhotoMainListPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15FA8325663AB6008442CF /* PhotoMainListPresentable.swift */; };
+		3A15FA8425663AB6008442CF /* PhotoMainListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15FA8325663AB6008442CF /* PhotoMainListPresenter.swift */; };
 		3A15FA8A25663B35008442CF /* PhotoMainListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15FA8925663B35008442CF /* PhotoMainListInteractor.swift */; };
 		3A15FA9225665541008442CF /* PhotoListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15FA9125665541008442CF /* PhotoListRouter.swift */; };
 		3A15FA96256655A7008442CF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15FA95256655A7008442CF /* Router.swift */; };
@@ -61,7 +61,7 @@
 		3A1132942567A8F00074922F /* PhotoMainListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMainListRouter.swift; sourceTree = "<group>"; };
 		3A1132982567AC1F0074922F /* PhotoSearchListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchListInteractor.swift; sourceTree = "<group>"; };
 		3A11329C2567ACC80074922F /* PhotoSearchListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchListPresenter.swift; sourceTree = "<group>"; };
-		3A15FA8325663AB6008442CF /* PhotoMainListPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMainListPresentable.swift; sourceTree = "<group>"; };
+		3A15FA8325663AB6008442CF /* PhotoMainListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMainListPresenter.swift; sourceTree = "<group>"; };
 		3A15FA8925663B35008442CF /* PhotoMainListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMainListInteractor.swift; sourceTree = "<group>"; };
 		3A15FA9125665541008442CF /* PhotoListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListRouter.swift; sourceTree = "<group>"; };
 		3A15FA95256655A7008442CF /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				3AA50CDD256610D900D7392C /* PhotoMainListViewController.swift */,
-				3A15FA8325663AB6008442CF /* PhotoMainListPresentable.swift */,
+				3A15FA8325663AB6008442CF /* PhotoMainListPresenter.swift */,
 				3A15FA8925663B35008442CF /* PhotoMainListInteractor.swift */,
 				3A1132942567A8F00074922F /* PhotoMainListRouter.swift */,
 			);
@@ -159,11 +159,11 @@
 			isa = PBXGroup;
 			children = (
 				3AA50CD925660E9F00D7392C /* PhotoPageViewController.swift */,
-				9992D24B25680EBE00132FF8 /* PhotoPageImageView.swift */,
-				9992D24F2568105800132FF8 /* PhotoPageImageView.xib */,
 				998EE9782569635A0029EB0A /* PhotoPagePresenter.swift */,
 				998EE980256966F70029EB0A /* PhotoPageInteractor.swift */,
 				998EE97C2569642D0029EB0A /* PhotoPageRouter.swift */,
+				9992D24B25680EBE00132FF8 /* PhotoPageImageView.swift */,
+				9992D24F2568105800132FF8 /* PhotoPageImageView.xib */,
 			);
 			path = PhotoPage;
 			sourceTree = "<group>";
@@ -387,7 +387,7 @@
 				3A15FA96256655A7008442CF /* Router.swift in Sources */,
 				3AD7CE252563CE2B002B97CB /* UnsplashAPI.swift in Sources */,
 				3AA50CD325660E3C00D7392C /* PhotoListViewController.swift in Sources */,
-				3A15FA8425663AB6008442CF /* PhotoMainListPresentable.swift in Sources */,
+				3A15FA8425663AB6008442CF /* PhotoMainListPresenter.swift in Sources */,
 				998EE9792569635A0029EB0A /* PhotoPagePresenter.swift in Sources */,
 				3AB8E57B2564F407006CC56F /* ModelExtension.swift in Sources */,
 				3AD96F322564B44000C1490E /* CommonExtension.swift in Sources */,
@@ -566,6 +566,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = accentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EUUSR7G48;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+					"RANDOM_PHOTO=0",
+				);
 				INFOPLIST_FILE = HKImageDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -587,6 +592,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = accentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6EUUSR7G48;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"RANDOM_PHOTO=0",
+				);
 				INFOPLIST_FILE = HKImageDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

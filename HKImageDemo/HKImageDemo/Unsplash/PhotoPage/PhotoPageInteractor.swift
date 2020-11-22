@@ -33,6 +33,7 @@ class PhotoPageInteractor: PhotoPageInteractorPrototype {
     }
     
     deinit {
+        self.baseInteractor.currentPhoto = nil
         self.baseInteractor.output = self.previousOutput
     }
     
@@ -63,6 +64,14 @@ class PhotoPageInteractor: PhotoPageInteractorPrototype {
 }
 
 extension PhotoPageInteractor: PhotoListInteractorOutput {
+    func willStartFetching() {
+        self.output?.willStartFetching()
+    }
+    
+    func didFinishFetched() {
+        self.output?.didFinishFetched()
+    }
+    
     func photosDidChanged() {
         self.presenter?.photosDidChanged()
         self.previousOutput?.photosDidChanged()

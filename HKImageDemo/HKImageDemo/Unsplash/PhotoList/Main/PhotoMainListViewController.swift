@@ -8,7 +8,9 @@
 import UIKit
 
 protocol PhotoMainListView: PhotoListView {
+    #if RANDOM_PHOTO
     func changeNavigationImage()
+    #endif
 }
 
 class PhotoMainListViewController: PhotoListViewController {
@@ -27,16 +29,14 @@ class PhotoMainListViewController: PhotoListViewController {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        #if RANDOM_PHOTO
         self.mainPresenter?.viewWillAppear()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.mainPresenter?.viewWillDisappear()
+        #endif
     }
 }
 
 extension PhotoMainListViewController: PhotoMainListView {
+    #if RANDOM_PHOTO
     func changeNavigationImage() {
         if #available(iOS 13.0, *) {
             self.imageSession = nil
@@ -84,4 +84,5 @@ extension PhotoMainListViewController: PhotoMainListView {
             }
         }
     }
+    #endif
 }

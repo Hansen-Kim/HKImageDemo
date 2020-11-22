@@ -37,6 +37,7 @@ class PhotoSearchListViewController: PhotoListViewController {
         self.notifyTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
             guard let self = self else { return }
             self.searchPresenter?.query = self.query
+            self.notifyTimer = nil
         }
     }
 }

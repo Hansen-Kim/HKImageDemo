@@ -36,6 +36,8 @@ class PhotoPagePresenter: PhotoPagePresenterPrototype {
         self.view.reloadData()
     }
     
+    fileprivate var fetchCount: Int = 0
+
     var hasMore: Bool {
         return self.interactor.hasMore
     }
@@ -72,6 +74,23 @@ class PhotoPagePresenter: PhotoPagePresenterPrototype {
 }
 
 extension PhotoPagePresenter: PhotoPageInteractorOutput {
+    func willStartFetching() {
+        DispatchQueue.main.async {
+            if self.fetchCount == 0 {
+                self.view.willStartFetching()
+            }
+            self.fetchCount += 1
+        }
+    }
+    func didFinishFetched() {
+        DispatchQueue.main.async {
+            self.fetchCount -= 1
+            if self.fetchCount == 0 {
+                self.view.didFinishFetched()
+            }
+        }
+    }
+
     func photosDidChanged() {
         self.view.reloadData()
     }

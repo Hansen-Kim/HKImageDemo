@@ -8,6 +8,9 @@
 import Foundation
 
 protocol PhotoListInteractorOutput: class {
+    func willStartFetching()
+    func didFinishFetched()
+
     func photosDidChanged()
     func currentPhotoDidChanged()
     func errorReceived(_ error: Error)

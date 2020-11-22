@@ -8,6 +8,9 @@
 import UIKit
 
 protocol PhotoPageView: View {
+    func willStartFetching()
+    func didFinishFetched()
+    
     func scroll(to index: Int)
     
     func reloadData()
@@ -18,6 +21,7 @@ class PhotoPageViewController: ViewController {
     internal var presenter: PhotoPagePresenterPrototype!
     
     @IBOutlet weak var pageView: PageView!
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +42,14 @@ class PhotoPageViewController: ViewController {
 }
 
 extension PhotoPageViewController: PhotoPageView {
+    func willStartFetching() {
+        self.indicatorView.startAnimating()
+    }
+    
+    func didFinishFetched() {
+        self.indicatorView.stopAnimating()
+    }
+    
     func scroll(to index: Int) {
         self.pageView.setContentOffset(CGPoint(x: self.pageView.bounds.size.width * CGFloat(index), y: 0.0), animated: false)
     }

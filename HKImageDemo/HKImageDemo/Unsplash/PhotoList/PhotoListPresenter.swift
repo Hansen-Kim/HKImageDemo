@@ -30,10 +30,12 @@ class PhotoListPresenter: PhotoListPresenterPrototype {
         self.router = router
     }
     
+    fileprivate var fetchCount: Int = 0
+
     var hasMore: Bool {
         return self.interactor.hasMore
     }
-    
+
     func numberOfRow(in section: Int) -> Int {
         return section == 0 ? self.interactor.photos.count : 0
     }
@@ -70,6 +72,23 @@ class PhotoListPresenter: PhotoListPresenterPrototype {
 }
 
 extension PhotoListPresenter: PhotoListInteractorOutput {
+    func willStartFetching() {
+        DispatchQueue.main.async {
+            if self.fetchCount == 0 {
+                self.view.willStartFetching()
+            }
+            self.fetchCount += 1
+        }
+    }
+    func didFinishFetched() {
+        DispatchQueue.main.async {
+            self.fetchCount -= 1
+            if self.fetchCount == 0 {
+                self.view.didFinishFetched()
+            }
+        }
+    }
+
     func photosDidChanged() {
         self.view.reloadData()
     }

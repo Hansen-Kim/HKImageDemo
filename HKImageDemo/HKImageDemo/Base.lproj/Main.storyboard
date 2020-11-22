@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ql6-EB-AZ9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ql6-EB-AZ9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" name="defaultBackgroundColor"/>
                                 <prototypes>
@@ -202,19 +202,29 @@
                                     <action selector="closeButtonDidTapped:" destination="TtO-Pp-4Nu" eventType="touchUpInside" id="Wty-SS-SRN"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zcr-nD-yab">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" name="indicatorBackgroundColor"/>
+                                <color key="color" name="mainTintColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FRd-wv-ftE"/>
                         <color key="backgroundColor" name="mainTintColor"/>
                         <constraints>
+                            <constraint firstItem="zcr-nD-yab" firstAttribute="trailing" secondItem="5Ad-IZ-GhI" secondAttribute="trailing" id="5ky-yI-8yD"/>
+                            <constraint firstItem="zcr-nD-yab" firstAttribute="top" secondItem="5Ad-IZ-GhI" secondAttribute="top" id="9fo-d4-vi6"/>
                             <constraint firstItem="zEC-5q-wVE" firstAttribute="top" secondItem="5Ad-IZ-GhI" secondAttribute="top" id="EIP-aa-JYZ"/>
+                            <constraint firstAttribute="bottom" secondItem="zcr-nD-yab" secondAttribute="bottom" id="H4v-kG-LLW"/>
                             <constraint firstItem="zEC-5q-wVE" firstAttribute="leading" secondItem="5Ad-IZ-GhI" secondAttribute="leading" id="Jit-3Z-A4s"/>
                             <constraint firstAttribute="trailing" secondItem="zEC-5q-wVE" secondAttribute="trailing" id="RNc-Vz-nAe"/>
                             <constraint firstItem="FRd-wv-ftE" firstAttribute="trailing" secondItem="E8v-Rz-bfQ" secondAttribute="trailing" constant="12" id="Rsk-KW-owE"/>
+                            <constraint firstItem="zcr-nD-yab" firstAttribute="leading" secondItem="5Ad-IZ-GhI" secondAttribute="leading" id="Ugw-Yl-6MU"/>
                             <constraint firstItem="E8v-Rz-bfQ" firstAttribute="top" secondItem="FRd-wv-ftE" secondAttribute="top" constant="12" id="bsf-oE-lPG"/>
                             <constraint firstAttribute="bottom" secondItem="zEC-5q-wVE" secondAttribute="bottom" id="lpj-rG-qeM"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="indicatorView" destination="zcr-nD-yab" id="1DT-wI-Ta6"/>
                         <outlet property="pageView" destination="zEC-5q-wVE" id="5NZ-Ga-6M2"/>
                     </connections>
                 </viewController>
@@ -262,7 +272,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="96n-ZK-zUq">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="96n-ZK-zUq">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" name="defaultBackgroundColor"/>
                                 <prototypes>

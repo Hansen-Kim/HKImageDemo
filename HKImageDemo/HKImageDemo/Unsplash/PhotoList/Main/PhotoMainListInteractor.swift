@@ -8,13 +8,17 @@
 import Foundation
 
 protocol PhotoMainListInteractorOutput: PhotoListInteractorOutput {
+    #if RANDOM_PHOTO
     func randomPhotoDidChanged()
+    #endif
 }
 
 protocol PhotoMainListInteractorProtoype: PhotoListInteractorPrototype {
+    #if RANDOM_PHOTO
     var randomPhoto: UnsplashPhoto? { get }
     
     func fetchRandomPhoto()
+    #endif
 }
 
 class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
@@ -41,13 +45,6 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
             }
         }
     }
-    private(set) var randomPhoto: UnsplashPhoto? {
-        didSet {
-            DispatchQueue.main.async {
-                self.presenter?.randomPhotoDidChanged()
-            }
-        }
-    }
     
     func reload() {
         self.photos.removeAll()
@@ -62,6 +59,8 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
     private var currentPage: Int = 1
     
     private func fetchPhotos(page: Int) {
+        self.output?.willStartFetching()
+
         do {
             _ = try Unsplash
                 .photoList(page: page)
@@ -78,13 +77,26 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
                         case .failure(let error, _, _):
                             self.errorReceived(error)
                     }
+                    self.output?.didFinishFetched()
                 }
         } catch let exception {
+            self.output?.didFinishFetched()
             self.errorReceived(exception)
         }
     }
     
+    #if RANDOM_PHOTO
+    private(set) var randomPhoto: UnsplashPhoto? {
+        didSet {
+            DispatchQueue.main.async {
+                self.presenter?.randomPhotoDidChanged()
+            }
+        }
+    }
+
     func fetchRandomPhoto() {
+        self.output?.willStartFetching()
+
         do {
             _ = try Unsplash
                 .random
@@ -96,11 +108,14 @@ class PhotoMainListInteractor: PhotoMainListInteractorProtoype {
                         case .failure(let error, _, _):
                             self.errorReceived(error)
                     }
+                    self.output?.didFinishFetched()
                 }
         } catch let exception {
+            self.output?.didFinishFetched()
             self.errorReceived(exception)
         }
     }
+    #endif
     
     private func errorReceived(_ error: Error) {
         DispatchQueue.main.async {
